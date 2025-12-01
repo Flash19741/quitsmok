@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 1. Добавляем корневой тег <layout> для включения Data Binding -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 2. Вся ваша предыдущая разметка теперь находится внутри тега <layout> -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3F51B5"
+        android:padding="16dp"
+        tools:context=".StatsFragment">
+
+
+        <TextView
+            android:id="@+id/tvStatsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Статистика"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp"/>
+
+        <TableLayout
+            android:id="@+id/statsTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"
+            android:background="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/tvStatsTitle"
+            android:layout_marginTop="30dp">
+
+            <TableRow
+                android:background="#D3D3D3"
+                android:padding="8dp">
+                <TextView
+                    android:layout_column="0"
+                    android:text=" "
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:gravity="start"/>
+                <TextView
+                    android:layout_column="1"
+                    android:text="Сигарет"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"/>
+                <TextView
+                    android:layout_column="2"
+                    android:text="Денег"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"/>
+            </TableRow>
+
+            <TableRow android:background="#F0F0F0" android:padding="8dp">
+                <TextView android:text="В начале" android:textStyle="bold" android:textColor="@android:color/black"/>
+                <TextView android:id="@+id/tvCigsStart" android:text="20" android:textColor="@android:color/black" android:gravity="center"/>
+                <TextView android:id="@+id/tvMoneyStart" android:text="50.00" android:textColor="@android:color/black" android:gravity="center"/>
+            </TableRow>
+
+            <TableRow android:background="@android:color/white" android:padding="8dp">
+                <TextView android:text="Вчера" android:textStyle="bold" android:textColor="@android:color/black"/>
+                <TextView android:id="@+id/tvCigsYesterday" android:text="15" android:textColor="@android:color/black" android:gravity="center"/>
+                <TextView android:id="@+id/tvMoneyYesterday" android:text="37.50" android:textColor="@android:color/black" android:gravity="center"/>
+            </TableRow>
+
+            <TableRow android:background="#F0F0F0" android:padding="8dp">
+                <TextView android:text="Сегодня" android:textStyle="bold" android:textColor="@android:color/black"/>
+                <TextView android:id="@+id/tvCigsToday" android:text="5" android:textColor="@android:color/black" android:gravity="center"/>
+                <TextView android:id="@+id/tvMoneyToday" android:text="12.50" android:textColor="@android:color/black" android:gravity="center"/>
+            </TableRow>
+
+            <TableRow android:background="@android:color/white" android:padding="8dp">
+                <TextView android:text="Всего" android:textStyle="bold" android:textColor="@android:color/black"/>
+                <TextView android:id="@+id/tvCigsTotal" android:text="200" android:textColor="@android:color/black" android:gravity="center"/>
+                <TextView android:id="@+id/tvMoneyTotal" android:text="500.00" android:textColor="@android:color/black" android:gravity="center"/>
+            </TableRow>
+        </TableLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

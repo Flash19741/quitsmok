@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3F51B5"
+        android:padding="24dp"
+        tools:context=".SettingsFragment">
+
+        <!-- БЛОК ВЫБОРА ЯЗЫКА ПОЛНОСТЬЮ УДАЛЕН -->
+
+        <!-- 1. Время без перекуров (теперь привязано к верху экрана) -->
+        <TextView
+            android:id="@+id/tvSleepTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Время без перекуров"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnTimeStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="22:30"
+            app:layout_constraintEnd_toStartOf="@+id/tvTimeSeparator"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSleepTimeLabel" />
+
+        <TextView
+            android:id="@+id/tvTimeSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="---"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="@id/btnTimeStart"
+            app:layout_constraintEnd_toStartOf="@id/btnTimeEnd"
+            app:layout_constraintStart_toEndOf="@id/btnTimeStart"
+            app:layout_constraintTop_toTopOf="@id/btnTimeStart" />
+
+        <Button
+            android:id="@+id/btnTimeEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvTimeSeparator"
+            app:layout_constraintTop_toTopOf="@id/btnTimeStart" />
+
+
+        <!-- 2. Цена пачки (привязки не изменились) -->
+        <TextView
+            android:id="@+id/tvPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:text="Цена пачки"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etPrice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etPrice" />
+
+        <EditText
+            android:id="@+id/etPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:hint="50.00"
+            android:inputType="numberDecimal"
+            android:minWidth="120dp"
+            android:padding="8dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnTimeStart" />
+
+
+        <!-- 3. Сигарет в день (привязки не изменились) -->
+        <TextView
+            android:id="@+id/tvCigsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:text="Сигарет в день"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etCigs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etCigs" />
+
+        <EditText
+            android:id="@+id/etCigs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:hint="20"
+            android:inputType="number"
+            android:minWidth="120dp"
+            android:padding="8dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etPrice" />
+
+
+        <!-- 4. Кнопки управления (остались без изменений) -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#4CAF50"
+            android:text="Сохранить"
+            app:layout_constraintBottom_toTopOf="@id/btnReset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F44336"
+            android:text="Сбросить настройки"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
