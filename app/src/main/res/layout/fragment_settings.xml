@@ -6,63 +6,145 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#3F51B5"
+        android:background="?attr/colorPrimary"
         android:padding="24dp"
         tools:context=".SettingsFragment">
+
+        <!-- 1. Заголовок экрана -->
+        <TextView
+            android:id="@+id/tvSettingsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Настройки"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 2. Блок "Время сна" -->
+        <TextView
+            android:id="@+id/tvSleepTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Время сна (без перекуров):"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSettingsTitle" />
+
+        <Button
+            android:id="@+id/btnTimeStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="22:30"
+            app:layout_constraintEnd_toStartOf="@+id/tvTimeSeparator"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSleepTimeLabel" />
+
+        <TextView
+            android:id="@+id/tvTimeSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="---"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/btnTimeStart"
+            app:layout_constraintEnd_toStartOf="@id/btnTimeEnd"
+            app:layout_constraintStart_toEndOf="@id/btnTimeStart"
+            app:layout_constraintTop_toTopOf="@id/btnTimeStart" />
+
+        <Button
+            android:id="@+id/btnTimeEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="07:30"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvTimeSeparator"
+            app:layout_constraintTop_toTopOf="@id/btnTimeStart" />
+
+        <!-- 3. Цена пачки -->
+        <TextView
+            android:id="@+id/tvPriceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:text="Цена пачки:"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etPrice"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etPrice" />
 
         <EditText
             android:id="@+id/etPrice"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="32dp"
             android:background="@android:color/white"
             android:gravity="center"
-            android:hint="Цена пачки"
+            android:hint="50.00"
             android:inputType="numberDecimal"
             android:padding="12dp"
             android:textColor="@android:color/black"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/btnTimeStart" />
+
+        <!-- 4. Сигарет в день -->
+        <TextView
+            android:id="@+id/tvCigsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:text="Сигарет в день:"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etCigs"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/etCigs" />
 
         <EditText
             android:id="@+id/etCigs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:background="@android:color/white"
             android:gravity="center"
-            android:hint="Сигарет в день"
+            android:hint="20"
             android:inputType="number"
             android:padding="12dp"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/etPrice" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <!-- НОВЫЙ БЛОК: Увеличение интервала -->
+        <!-- 5. НОВЫЙ БЛОК: Увеличение интервала -->
         <TextView
             android:id="@+id/tvExtraTimeLabel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Увеличивать интервал на (мин):"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:text="Увеличивать интервал (мин):"
             android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/etExtraTime"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPrice" />
+            app:layout_constraintTop_toTopOf="@+id/etExtraTime" />
 
         <EditText
             android:id="@+id/etExtraTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@android:color/white"
             android:gravity="center"
             android:hint="2"
@@ -70,47 +152,23 @@
             android:padding="12dp"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvExtraTimeLabel" />
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/etCigs" />
 
-        <!-- Старый блок "Время сна" теперь привязан к новому блоку -->
-        <TextView
-            android:id="@+id/tvSleepTimeLabel"
+        <!-- Вспомогательная линия для выравнивания полей ввода -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Время сна (без перекуров):"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etExtraTime" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.65" />
 
-        <!-- ... (остальные элементы остаются без изменений) ... -->
-
-        <Button
-            android:id="@+id/btnTimeStart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="22:30"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSleepTimeLabel" />
-
-        <Button
-            android:id="@+id/btnTimeEnd"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="07:30"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/tvSleepTimeLabel" />
-
+        <!-- Кнопки управления -->
         <Button
             android:id="@+id/btnSave"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:text="СОХРАНИТЬ"
             app:layout_constraintBottom_toTopOf="@id/btnReset"
             app:layout_constraintEnd_toEndOf="parent"

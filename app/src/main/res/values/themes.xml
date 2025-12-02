@@ -2,5 +2,13 @@
 <resources>
 
     <style name="Theme.Quitsmok" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        ИЗМЕНЕНИЕ: Устанавливаем новые основные цвета
+        -->
+        <!-- Основной цвет приложения (для Toolbar, кнопок и т.д.) -->
+        <item name="colorPrimary">@color/light_green</item>
+        <!-- Цвет для статус-бара (полоска вверху экрана) -->
+        <item name="colorPrimaryVariant">@color/dark_green</item>
+        <!-- Цвет текста на основном цвете (например, на кнопках) -->
+        <item name="colorOnPrimary">@color/black</item>
     </style>
 </resources>
