@@ -31,6 +31,8 @@ class Prefs(context: Context) {
         // --- Общая статистика ---
         const val KEY_CIGS_TOTAL = "cigs_total"
         const val KEY_MONEY_SAVED_TOTAL = "money_saved_total"
+        const val KEY_FIRST_LAUNCH_TIME = "first_launch_time"
+        const val KEY_DAYS_PASSED = "days_passed"
     }
 
     // --- Методы для сохранения и получения данных ---

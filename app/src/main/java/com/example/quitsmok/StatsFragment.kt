@@ -29,60 +29,72 @@ class StatsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Обновляем статистику каждый раз, когда пользователь открывает этот экран
         updateStats()
     }
 
     private fun updateStats() {
-        // --- 1. Получаем базовые данные из настроек ---
         val initialCigsPerDay = prefs.getInt(Prefs.KEY_CIGS_PER_DAY_SETTING, 20)
         val packPrice = prefs.getFloat(Prefs.KEY_PRICE_PACK, 0f)
         val cigsInPack = prefs.getInt(Prefs.KEY_CIGS_IN_PACK, 20)
 
-        val pricePerCig = if (cigsInPack > 0 && packPrice > 0) {
-            packPrice / cigsInPack
-        } else {
-            0f
-        }
+        val pricePerCig = if (cigsInPack > 0 && packPrice > 0) packPrice / cigsInPack else 0f
 
-        // --- 2. Получаем статистику по дням ---
+        // Сегодня и вчера
         val cigsToday = prefs.getInt(Prefs.KEY_CIGS_TODAY, 0)
         val cigsYesterday = prefs.getInt(Prefs.KEY_CIGS_YESTERDAY, 0)
 
-        // --- 3. Рассчитываем потраченные деньги "на лету" ---
+        // Общее количество выкуренных сигарет (прошлые дни + сегодня)
+        val baseTotalCigs = prefs.getInt(Prefs.KEY_CIGS_TOTAL, 0)
+        val actualTotalCigs = baseTotalCigs + cigsToday
+
+        // Общая сумма потраченных денег (самый точный способ)
+        val actualTotalMoney = actualTotalCigs * pricePerCig
+
+        // Деньги за сегодня/вчера
         val moneySpentToday = cigsToday * pricePerCig
         val moneySpentYesterday = cigsYesterday * pricePerCig
         val initialMoneyPerDay = initialCigsPerDay * pricePerCig
 
-        // --- 4. Получаем "базовый" итог по сигаретам (за все ПРОШЕДШИЕ дни) ---
-        val baseTotalCigs = prefs.getInt(Prefs.KEY_CIGS_TOTAL, 0)
+        // === РАСЧЁТ СЭКОНОМЛЕННОГО ===
+        val firstLaunchTime = prefs.getLong(Prefs.KEY_FIRST_LAUNCH_TIME, 0L)
+        val daysPassed = if (firstLaunchTime > 0) {
+            val days = (System.currentTimeMillis() - firstLaunchTime) / (1000L * 60 * 60 * 24)
+            days.toInt()
+        } else 0
 
-        // --- 5. Рассчитываем АКТУАЛЬНЫЕ итоги ---
-        // Считаем общее количество выкуренных сигарет
-        val actualTotalCigs = baseTotalCigs + cigsToday
+        // Сколько бы выкурил, если бы не бросал
+        val expectedCigs = initialCigsPerDay * (daysPassed + 1) // +1 — включая сегодняшний день
+        val savedCigs = (expectedCigs - actualTotalCigs).coerceAtLeast(0)
+        val savedMoney = savedCigs * pricePerCig
 
-        // ======================= ГЛАВНОЕ ИСПРАВЛЕНИЕ ЗДЕСЬ =======================
-        // Рассчитываем общую сумму потраченных денег, умножая ОБЩЕЕ количество сигарет на цену одной.
-        // Это самый надежный способ, который исключает ошибки сложения.
-        val actualTotalMoney = actualTotalCigs * pricePerCig
-        // =====================================================================
+        // === УВЕЛИЧЕНИЕ ИНТЕРВАЛА ===
+        val initialInterval = prefs.getInt(Prefs.KEY_INTERVAL_MINUTES, 60)
+        val extraPerCig = prefs.getInt(Prefs.KEY_EXTRA_MINUTES_PER_CIG, 2)
+        val currentInterval = initialInterval + (actualTotalCigs * extraPerCig)
+        val intervalIncreased = currentInterval - initialInterval
 
-        // --- 6. Отображаем все данные на экране ---
-        // В начале
+        // === ЗАПОЛНЕНИЕ UI ===
         binding.tvCigsStart.text = "$initialCigsPerDay"
         binding.tvMoneyStart.text = String.format(Locale.US, "%.2f", initialMoneyPerDay)
 
-        // Вчера
         binding.tvCigsYesterday.text = "$cigsYesterday"
         binding.tvMoneyYesterday.text = String.format(Locale.US, "%.2f", moneySpentYesterday)
 
-        // Сегодня
         binding.tvCigsToday.text = "$cigsToday"
         binding.tvMoneyToday.text = String.format(Locale.US, "%.2f", moneySpentToday)
 
-        // Всего (отображаем актуальные, рассчитанные итоги)
         binding.tvCigsTotal.text = "$actualTotalCigs"
         binding.tvMoneyTotal.text = String.format(Locale.US, "%.2f", actualTotalMoney)
+
+        // Новые строки
+        binding.tvSavedCigs.text = "$savedCigs"
+        binding.tvSavedMoney.text = String.format(Locale.US, "%.2f ₽", savedMoney)
+
+        binding.tvIntervalIncreased.text = if (intervalIncreased > 0) {
+            "+$intervalIncreased мин"
+        } else {
+            "0 мин"
+        }
     }
 
     override fun onDestroyView() {
