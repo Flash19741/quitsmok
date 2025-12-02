@@ -17,8 +17,6 @@ class MainActivity : AppCompatActivity() {
 
         prefs = Prefs(this)
 
-        // Устанавливаем слушатель для BottomNavigationView ДО того, как выбираем элемент.
-        // Это стандартная и надежная практика.
         binding.bottomNavView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_timer -> loadFragment(TimerFragment())
@@ -29,22 +27,18 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // Логика первого запуска.
-        // Вместо прямой загрузки фрагмента, мы просто выбираем нужный пункт в меню.
-        // Это автоматически вызовет слушатель setOnItemSelectedListener и загрузит нужный фрагмент.
+        // Логика первого запуска: открываем настройки, иначе - таймер.
         if (prefs.getBoolean(Prefs.KEY_FIRST_LAUNCH, true)) {
-            // Если это первый запуск, выбираем вкладку "Настройки"
+            // Чтобы при первом запуске была подсвечена нужная иконка
             binding.bottomNavView.selectedItemId = R.id.nav_settings
         } else {
-            // Если запуск не первый, выбираем вкладку "Таймер"
-            binding.bottomNavView.selectedItemId = R.id.nav_timer
+            // Для последующих запусков по умолчанию открываем таймер
+            if (savedInstanceState == null) { // Избегаем пересоздания фрагмента при повороте экрана
+                binding.bottomNavView.selectedItemId = R.id.nav_timer
+            }
         }
     }
 
-    /**
-     * Функция для замены текущего фрагмента в контейнере.
-     * @param fragment Экземпляр фрагмента для отображения.
-     */
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)

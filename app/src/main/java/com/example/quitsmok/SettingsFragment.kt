@@ -1,13 +1,11 @@
 package com.example.quitsmok
 
-import android.app.AlertDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-// ИСПРАВЛЕНО: Удалены дублирующиеся и ошибочные импорты
 import androidx.fragment.app.Fragment
 import com.example.quitsmok.databinding.FragmentSettingsBinding
 import java.util.*
@@ -19,6 +17,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var prefs: Prefs
 
+    // Переменные для хранения выбранного времени сна
     private var startSleepHour = 22
     private var startSleepMinute = 30
     private var endSleepHour = 7
@@ -63,6 +62,7 @@ class SettingsFragment : Fragment() {
             // Сбрасываем UI к дефолтным значениям
             binding.etPrice.setText("")
             binding.etCigs.setText("")
+            binding.etExtraTime.setText("2") // Сбрасываем и новое поле
             binding.btnTimeStart.text = "22:30"
             binding.btnTimeEnd.text = "07:30"
             Toast.makeText(requireContext(), "Настройки сброшены", Toast.LENGTH_SHORT).show()
@@ -75,6 +75,10 @@ class SettingsFragment : Fragment() {
 
         val savedCigs = prefs.getInt(Prefs.KEY_CIGS_PER_DAY_SETTING, 0)
         if (savedCigs > 0) binding.etCigs.setText(savedCigs.toString())
+
+        // ИЗМЕНЕНО: Загружаем значение увеличения интервала
+        val savedExtraTime = prefs.getInt(Prefs.KEY_EXTRA_MINUTES_PER_CIG, 2) // По умолчанию 2
+        binding.etExtraTime.setText(savedExtraTime.toString())
 
         val timeStart = prefs.getString(Prefs.KEY_TIME_START_SLEEP)
         if (!timeStart.isNullOrEmpty()) {
@@ -100,20 +104,27 @@ class SettingsFragment : Fragment() {
     private fun saveSettings() {
         val priceStr = binding.etPrice.text.toString()
         val cigsStr = binding.etCigs.text.toString()
+        // ИЗМЕНЕНО: Считываем новое поле
+        val extraTimeStr = binding.etExtraTime.text.toString()
 
-        if (priceStr.isEmpty() || cigsStr.isEmpty()) {
+        // ИЗМЕНЕНО: Проверяем, что все поля, включая новое, заполнены
+        if (priceStr.isEmpty() || cigsStr.isEmpty() || extraTimeStr.isEmpty()) {
             Toast.makeText(requireContext(), "Пожалуйста, заполните все поля!", Toast.LENGTH_LONG).show()
             return
         }
 
         val price = priceStr.toFloatOrNull() ?: 0f
         val cigs = cigsStr.toIntOrNull() ?: 0
+        // ИЗМЕНЕНО: Сохраняем новое значение
+        val extraTime = extraTimeStr.toIntOrNull() ?: 2
+        prefs.saveInt(Prefs.KEY_EXTRA_MINUTES_PER_CIG, extraTime)
 
         prefs.saveFloat(Prefs.KEY_PRICE_PACK, price)
         prefs.saveInt(Prefs.KEY_CIGS_PER_DAY_SETTING, cigs)
         prefs.saveString(Prefs.KEY_TIME_START_SLEEP, binding.btnTimeStart.text.toString())
         prefs.saveString(Prefs.KEY_TIME_END_SLEEP, binding.btnTimeEnd.text.toString())
 
+        // --- Расчёты ---
         val cigsInPack = prefs.getInt(Prefs.KEY_CIGS_IN_PACK, 20).coerceAtLeast(1)
         val moneyPerDay = (price / cigsInPack) * cigs
         prefs.saveFloat(Prefs.KEY_MONEY_SPENT_PER_DAY, moneyPerDay)
